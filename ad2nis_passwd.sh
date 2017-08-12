@@ -11,18 +11,13 @@
 
 USER_BASE='OU=Users,DC=example,DC=com'
 DC_SERVER='dc.example.com'
-#SAM_NAME=$1
-#UID_NEXT=0
 declare -A NIS_LN
-
-
-#LDAP_QUERY=`ldapsearch -o ldif-wrap=no -h $DC_SERVER -Y GSSAPI -Q -N -b "$USER_BASE" -s sub "(&(objectCategory=person)(objectClass=user)(sAMAccountName=*)(uid=*)(uidNumber=*))" uid uidNumber gidNumber displayName unixHomeDirectory loginShell|grep -v "^dn: \|^search: \|^result: \|^$"|sed -e "s/^#.*$/#/g"|tr "\n" "|"|tr "#" "\n"`
 
 LDAP_QUERY=`ldapsearch -o ldif-wrap=no -h $DC_SERVER -Y GSSAPI -Q -N -b "$USER_BASE" -s sub "(&(objectCategory=person)(objectClass=user)(sAMAccountName=*)(uid=*)(uidNumber=*))" uid uidNumber gidNumber displayName unixHomeDirectory loginShell|grep -v "^dn: \|^search: \|^result: \|^$"|sed -e "s/^#.*$/#/g"|tr "\n" "|"|tr "#" "\n"`
 
 if [ -z "$LDAP_QUERY" ]
 then
-    echo "User not found"
+    echo "No user info found"
     exit 0
 fi
 
